@@ -13,6 +13,10 @@
         <input type="text" name="" id="message" placeholder="Escreva algo: ">
         <input type="submit" value="Enviar">
     </form>
+    <h1>Histórico de mensagens: </h1>
+    <ul id="history">
+
+    </ul>
 
 
 
@@ -22,6 +26,7 @@
 
         let form = document.getElementById('form')
         let input = document.getElementById('message')
+        let history = document.getElementById('history')
 
         form.addEventListener('submit', (e) =>{
             e.preventDefault(); //Para a página não atualizar ao dar submit
@@ -32,6 +37,12 @@
             }
         })
 
+        socket.on('chat message', (msg) =>{
+                var item = document.createElement('li');
+                item.textContent = msg                
+                history.appendChild(item)
+            }) 
+            //Bloquinho acima capta quando ocorre um chat message, coloca ele em uma li, e mostra ele para TODOS os usuários
 
     </script>
     <script src="/js/nada.js"></script> <!--Teste de node-->
