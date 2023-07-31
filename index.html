@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Teste</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/css/style.css'>
+</head>
+<body>
+    <h1>Teste de Node</h1>
+    <form action="" id="form">
+        <input type="text" name="" id="message" placeholder="Escreva algo: ">
+        <input type="submit" value="Enviar">
+    </form>
+
+
+
+    <script src="/socket.io/socket.io.js"></script> <!--Pro socket funcionar-->
+    <script>
+        var socket = io();
+
+        let form = document.getElementById('form')
+        let input = document.getElementById('message')
+
+        form.addEventListener('submit', (e) =>{
+            e.preventDefault(); //Para a página não atualizar ao dar submit
+            if(input.value){
+                socket.emit('chat message', input.value); 
+                input.value = '';
+                //Esse 'chat message' serve para nomear essa interação, indicando o que disparar no index.js
+            }
+        })
+
+
+    </script>
+    <script src="/js/nada.js"></script> <!--Teste de node-->
+    <script src='server.js'></script> <!--Node-->
+    <script>
+
+    </script>
+</body>
+</html>
