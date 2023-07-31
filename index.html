@@ -5,22 +5,18 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Teste</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='/css/style.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='public/css/style.css'>
+    <script src="/socket.io/socket.io.js"></script> <!--Pro socket funcionar-->
 </head>
 <body>
-    <h1>Teste de Node</h1>
+    <h1>Socket.io</h1>
     <form action="" id="form">
         <input type="text" name="" id="message" placeholder="Escreva algo: ">
-        <input type="submit" value="Enviar">
+        <input type="submit" value="Enviar" id="submit">
     </form>
-    <h1>Histórico de mensagens: </h1>
     <ul id="history">
-
+        <!-- Mensagens digitadas aparecerão aqui -->
     </ul>
-
-
-
-    <script src="/socket.io/socket.io.js"></script> <!--Pro socket funcionar-->
     <script>
         var socket = io();
 
@@ -38,14 +34,29 @@
         })
 
         socket.on('chat message', (msg) =>{
-                var item = document.createElement('li');
-                item.textContent = msg                
-                history.appendChild(item)
-            }) 
+            var item = document.createElement('li');
+            item.textContent = msg                
+            history.appendChild(item)
+        })
             //Bloquinho acima capta quando ocorre um chat message, coloca ele em uma li, e mostra ele para TODOS os usuários
 
+        socket.on('user connect', (id) =>{
+            var item = document.createElement('li');
+            item.textContent = `Usuário ${id} entrou`            
+            history.appendChild(item)
+        })
+
+        socket.on('user disconnect', (id) =>{
+            var item = document.createElement('li');
+            item.textContent = `Usuário ${id} saiu`            
+            history.appendChild(item)
+        })
+
+
+        
+
     </script>
-    <script src="/js/nada.js"></script> <!--Teste de node-->
+    <script src="public/js/nada.js"></script> <!--Teste de node-->
     <script src='server.js'></script> <!--Node-->
     <script>
 

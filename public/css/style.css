@@ -1,4 +1,46 @@
+/*Fonte*/
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
 body{
+    color: rgb(0, 0, 0);
+    background-color: rgb(236, 239, 255);
+    font-family: 'Varela Round';
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+}
+
+#message{
+    padding: 10px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+}
+
+#submit{
+    background-color: limegreen;
     color: white;
-    background-color: black;
+    border: none;
+    padding: 10px;
+    border-radius: 0 5px 5px 0;
+    position: relative;
+    right: 8px;
+}
+
+#history{
+    list-style-type: none;
+    width: 520px;
+    padding: 0;
+}
+
+#history li{
+    padding: 5px;
+}
+
+#history li:nth-child(odd){
+    background-color: rgb(211, 218, 255);
 }

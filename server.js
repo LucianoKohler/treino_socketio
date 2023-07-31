@@ -13,10 +13,14 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
+  let id = socket.id;
+
+    io.emit('user connect', id);
+    console.log('user connected: ' + id)
 
     socket.on('disconnect', () => {
-      console.log('user disconnected');
+      io.emit('user disconnect', id)
+      console.log('user disconnected: ' + id);
     });
 
     socket.on('chat message', (msg) =>{ //Esse 'chat message' está no client side, dê uma olhada lá
