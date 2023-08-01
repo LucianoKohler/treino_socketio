@@ -21,6 +21,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
       io.emit('user disconnect', id)
       console.log('user disconnected: ' + id);
+      
     });
 
     socket.on('chat message', (msg) =>{ //Esse 'chat message' está no client side, dê uma olhada lá
