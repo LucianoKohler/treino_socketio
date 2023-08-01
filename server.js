@@ -15,24 +15,29 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   let id = socket.id;
 
-    io.emit('user connect', id);
-    console.log('user connected: ' + id)
+  socket.on('nick register', (nick) =>{
+    io.emit('user connect', nick)
+    socket.nickname = nick
+    console.log('Usuário logado: ' + socket.nickname)
+  })
 
     socket.on('disconnect', () => {
-      io.emit('user disconnect', id)
-      console.log('user disconnected: ' + id);
-      
+      if(socket.nickname){
+        io.emit('user disconnect', socket.nickname)
+        console.log('Usuário deslogado: ' + socket.nickname)
+      }else console.log('Guest deslogado');
     });
 
     socket.on('chat message', (msg) =>{ //Esse 'chat message' está no client side, dê uma olhada lá
-        io.emit('chat message', msg)
-
-
+        io.emit('chat message', {msg: msg, nick: socket.nickname,})
         // console.log('Mensagem escrita: ' + msg);
     })
   });
 
-server.listen(3000, () => {
-  console.log('listening on 3000');
+  let port = 3000
+server.listen(port, () => {
+
+  console.log('Servidor aberto em: \u001b[1;36mhttp://localhost:'+port+'\u001b[0m');
+  //esse \u001b[1;36m é usado para deixar o console ciano, e o \u001b[0m é para deixar o console branco de volta.
 });
 

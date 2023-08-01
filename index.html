@@ -9,10 +9,17 @@
     <script src="/socket.io/socket.io.js"></script> <!--Pro socket funcionar-->
 </head>
 <body>
+    <div id="nickname">
+        <h2>Insira um nome de usuário:</h2>
+        <form action="" id="nickname-form">
+            <input type="text" name="" id="nick" placeholder="Nome: " required>
+            <input type="submit" value="Enviar" class="submit" id="nick-submit">
+        </form>
+    </div>
     <h1>Socket.io</h1>
-    <form action="" id="form">
-        <input type="text" name="" id="message" placeholder="Escreva algo: ">
-        <input type="submit" value="Enviar" id="submit">
+    <form action="" id="message-form">
+        <input type="text" name="" id="message" placeholder="Escreva algo: " required>
+        <input type="submit" value="Enviar" class="submit" id="message-submit">
     </form>
     <ul id="history">
         <!-- Mensagens digitadas aparecerão aqui -->
@@ -20,46 +27,51 @@
     <script>
         var socket = io();
 
-        let form = document.getElementById('form')
-        let input = document.getElementById('message')
+        let nickform = document.getElementById('nickname-form')
+        let nickinput = document.getElementById('nick')
+        let msgform = document.getElementById('message-form')
+        let message = document.getElementById('message')
+
         let history = document.getElementById('history')
 
-        form.addEventListener('submit', (e) =>{
+        nickform.addEventListener('submit', (e) =>{
+            e.preventDefault();
+            document.getElementById('nickname').style.display = 'none'
+
+            socket.emit('nick register', nickinput.value);
+        })
+
+        msgform.addEventListener('submit', (e) =>{
             e.preventDefault(); //Para a página não atualizar ao dar submit
-            if(input.value){
-                socket.emit('chat message', input.value); 
-                input.value = '';
+            if(message.value){
+                socket.emit('chat message', message.value); 
+                message.value = '';
                 //Esse 'chat message' serve para nomear essa interação, indicando o que disparar no index.js
             }
         })
 
         socket.on('chat message', (msg) =>{
             var item = document.createElement('li');
-            item.textContent = msg                
+            item.textContent = msg.nick + ": " + msg.msg;
             history.appendChild(item)
         })
             //Bloquinho acima capta quando ocorre um chat message, coloca ele em uma li, e mostra ele para TODOS os usuários
 
-        socket.on('user connect', (id) =>{
+        socket.on('user connect', (nick) =>{
             var item = document.createElement('li');
-            item.textContent = `Usuário ${id} entrou`            
+            item.textContent = ` ${nick} entrou`            
             history.appendChild(item)
         })
 
-        socket.on('user disconnect', (id) =>{
+        socket.on('user disconnect', (nick) =>{
             var item = document.createElement('li');
-            item.textContent = `Usuário ${id} saiu`            
+            item.textContent = `${nick} saiu`            
             history.appendChild(item)
         })
-
-
         
 
     </script>
     <script src="public/js/nada.js"></script> <!--Teste de node-->
     <script src='server.js'></script> <!--Node-->
-    <script>
-
-    </script>
 </body>
 </html>
