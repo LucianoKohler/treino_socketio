@@ -15,18 +15,19 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   let id = socket.id;
 
-    io.emit('user connect', id);
-    console.log('user connected: ' + id)
+  socket.on('nick register', (nick) =>{
+    io.emit('user connect', nick)
+    socket.nickname = nick
+    console.log('Usuário logado: ' + socket.nickname)
+  })
 
     socket.on('disconnect', () => {
-      io.emit('user disconnect', id)
-      console.log('user disconnected: ' + id);
+      io.emit('user disconnect', socket.nickname)
+      console.log('Usuário deslogado: ' + socket.nickname);
     });
 
     socket.on('chat message', (msg) =>{ //Esse 'chat message' está no client side, dê uma olhada lá
-        io.emit('chat message', msg)
-
-
+        io.emit('chat message', {msg: msg, nick: socket.nickname,})
         // console.log('Mensagem escrita: ' + msg);
     })
   });

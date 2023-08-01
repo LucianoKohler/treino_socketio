@@ -1,6 +1,8 @@
 /*Fonte*/
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
+html, body{padding: 0; margin: 0;}
+
 body{
     color: rgb(0, 0, 0);
     background-color: rgb(236, 239, 255);
@@ -15,13 +17,25 @@ form{
     justify-content: center;
 }
 
-#message{
+#nickname{
+    position: absolute;
+    height: 100%;
+    background-color: rgb(236, 239, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    z-index: 99;
+}
+
+#message, #nick{
     padding: 10px;
     border: none;
     border-radius: 5px 0 0 5px;
 }
 
-#submit{
+.submit{
     background-color: limegreen;
     color: white;
     border: none;
